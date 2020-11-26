@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css';
 import Header from './Header'
+import AddTask from './AddTask'
 import List from './List'
 
 class App extends React.Component {
@@ -26,25 +27,39 @@ class App extends React.Component {
   }
 
   checkBox = (index) => {
-    console.log(this.state.tasks[index].status)
     if (this.state.tasks[index].status === '🔲') {
       this.setState((currentState) => {
         const newTasks = [...currentState.tasks];
+        newTasks[index].status = '✅'
         const newState = {
-          [newTasks[index]]: '✅'
+          tasks: newTasks
         }
-        console.log(newState)
         return newState
       })
-    } else {
-      return this.state.tasks[index].status === '🔲'
+    } else if (this.state.tasks[index].status === '✅') {
+      this.setState((currentState) => {
+        const newTasks = [...currentState.tasks];
+        newTasks[index].status = '🔲'
+        const newState = {
+          tasks: newTasks
+        }
+        return newState
+      })
     }
+  }
+
+  addTask = (newTask) => {
+    this.setState(currentState => {
+      const newState = { tasks: [newTask, ...currentState.tasks] }
+      return newState
+    })
   }
 
   render() {
     return (
       <div className="App">
         <Header />
+        <AddTask addTask={this.addTask} />
         <List checkBox={this.checkBox}
           items={this.state.tasks} />
       </div>
