@@ -55,15 +55,41 @@ class App extends React.Component {
     })
   }
 
+  deleteTask = (index) => {
+    this.setState(currentState => {
+      const newTasks = [...currentState.tasks];
+      newTasks.splice(index, 1)
+      const newState = { tasks: newTasks }
+      return newState
+    })
+  }
+
   render() {
-    return (
-      <div className="App">
-        <Header />
-        <AddTask addTask={this.addTask} />
-        <List checkBox={this.checkBox}
-          items={this.state.tasks} />
-      </div>
-    );
+
+    if (this.state.tasks.length > 0) {
+      return (
+        <div className="App">
+          <Header />
+          <AddTask addTask={this.addTask} />
+          <List checkBox={this.checkBox}
+            items={this.state.tasks}
+            deleteTask={this.deleteTask} />
+        </div>
+      );
+    } else {
+      return (
+        <div className="App">
+          <Header />
+          <AddTask addTask={this.addTask} />
+          <List checkBox={this.checkBox}
+            items={this.state.tasks}
+            deleteTask={this.deleteTask} />
+          <p>Congrats, go play in the park!</p>
+          <img src="https://files.slack.com/files-pri/T1VHRHZE2-F01GB2CAJ72/1dsc_4386.jpg" alt="Young person playing with his frisbee" />
+        </div>
+      )
+    }
+
   }
 }
 
